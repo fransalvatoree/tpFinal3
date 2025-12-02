@@ -13,14 +13,10 @@ let botonInstrucciones;
 function preload() {
   // Cargar pantallas (0 a 13)
   for (let i = 0; i < 14; i++) {
-    pantallas[i] = loadImage("data/pantalla" + i + ".jpeg");
-  }
+    pantallas[i] = loadImage("data/pantalla" + i + ".jpg");
+mySound = loadSound("data/cancion.mp3");
+textos = loadStrings("data/texto.txt");
 
-  // Cargar música
-  mySound = loadSound("data/cancion.mp3");
-
-  // Cargar textos
-  textos = loadStrings("data/texto.txt");
 }
 
 function setup() {
@@ -105,6 +101,7 @@ function actualizarBotones() {
     botonVolver.show();
   }
 }
+
 
 
 
