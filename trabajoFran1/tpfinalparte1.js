@@ -1,4 +1,4 @@
-//variables
+// VARIABLES
 let pantallas = [];
 let pantallaActual = 0;
 let mySound;
@@ -13,14 +13,14 @@ let botonInstrucciones;
 function preload() {
   // Cargar pantallas (0 a 13)
   for (let i = 0; i < 14; i++) {
-    pantallas[i] = loadImage("trabajoFran1/trabajoFran1/data/pantalla" + i + ".jpg");
+    pantallas[i] = loadImage("data/pantalla" + i + ".jpg");
   }
 
   // Cargar música
-  mySound = loadSound("trabajoFran1/trabajoFran1/data/cancion.mp3");
+  mySound = loadSound("data/cancion.mp3");
 
   // Cargar textos
-  textos = loadStrings("trabajoFran1/trabajoFran1/data/texto.txt");
+  textos = loadStrings("data/texto.txt");
 }
 
 function setup() {
@@ -29,7 +29,7 @@ function setup() {
   // Botones
   botonContinuar = createButton("CONTINUAR");
   botonContinuar.position(50, 520);
-  botonContinuar.mousePressed(() => cambiarPantalla(1));
+  botonContinuar.mousePressed(() => cambiarPantalla(pantallaActual + 1));
 
   botonJugar = createButton("JUGAR");
   botonJugar.position(50, 520);
@@ -68,9 +68,8 @@ function draw() {
   actualizarBotones();
 }
 
-// Cambiar pantalla de forma segura
+// Cambiar pantalla sin romper límites
 function cambiarPantalla(nuevaPantalla) {
-  // nunca ir a una pantalla que no existe
   if (nuevaPantalla >= 0 && nuevaPantalla <= 13) {
     pantallaActual = nuevaPantalla;
   }
@@ -84,26 +83,28 @@ function actualizarBotones() {
   botonInstrucciones.hide();
   botonVolver.hide();
 
-  // Según pantalla
+  // PANTALLA 0 → menú
   if (pantallaActual === 0) {
     botonJugar.show();
     botonCreditos.show();
     botonInstrucciones.show();
   }
 
+  // PANTALLAS 1–12 → solo CONTINUAR
   if (pantallaActual >= 1 && pantallaActual <= 12) {
     botonContinuar.show();
   }
 
+  // CREDITOS (2) o INSTRUCCIONES (3)
   if (pantallaActual === 2 || pantallaActual === 3) {
     botonVolver.show();
   }
 
+  // PANTALLA FINAL 13
   if (pantallaActual === 13) {
     botonVolver.show();
   }
 }
-
 
 
 
