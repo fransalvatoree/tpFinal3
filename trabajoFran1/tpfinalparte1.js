@@ -1,56 +1,61 @@
-// VARIABLES
+//variables
 let pantallas = [];
 let pantallaActual = 0;
+let mySound;
 let textos = [];
 
-// PRELOAD: imágenes + textos
+//pantallas, imagenes, archivo de textos, musica
 function preload() {
   for (let i = 0; i < 14; i++) {
     pantallas[i] = loadImage("data/pantalla" + i + ".jpeg");
   }
-
-  textos = loadStrings("data/texto.txt");
+  mySound = loadSound('data/cancion.mp3');
+  textos = loadStrings('data/texto.txt');
 }
 
-// CANVAS
+//lienzo
 function setup() {
   createCanvas(640, 480);
 }
 
-// DIBUJO DE PANTALLAS
+//textos
 function draw() {
   background(200);
-
-  // Imagen
   image(pantallas[pantallaActual], 0, 0, 640, 480);
-
-  // Texto
   let textoActual = textos[pantallaActual];
-
+  let textoAncho = 600; // Ancho máximo para el texto
+  let textoAlto = 60; // Altura del rectángulo
+  let rectX = 20; // Posición X del rectángulo
+  let rectY = 45; // Posición Y del rectángulo
   fill(178, 195, 255);
-  rect(20, 45, 610, 60);
-
-  fill(0);
+  rect(rectX, rectY, textoAncho + 10, textoAlto + 1); 
+  fill(0)
   noStroke();
   textSize(18);
-  textAlign(CENTER, CENTER);
-  text(textoActual, 25, 50, 600, 50);
-
-  // BOTONES SEGÚN PANTALLA
+  textAlign(CENTER);
+  text(textoActual, rectX + 5, rectY + 5, textoAncho, textoAlto);
+  
+//botones en sus respectivas pantallas
   if (pantallaActual === 0) {
     mostrarBotonesInicio();
-  } else if ([1, 2, 3, 6, 8, 11].includes(pantallaActual)) {
+  } else if (pantallaActual === 2) {
+    mostrarBotonAvanzar();
+  } else if (pantallaActual === 3) {
     mostrarBotonAvanzar();
   } else if (pantallaActual === 4) {
     mostrarBotonesLaencuentraNolaencuentra();
-  } else if (pantallaActual === 7) {
-    mostrarBotonesEspectaculoDesaparece();
-  } else if ([5, 9, 10, 12, 13].includes(pantallaActual)) {
+  } else if (pantallaActual === 5 || pantallaActual === 9 || pantallaActual === 10 || pantallaActual === 12 || pantallaActual === 13 || pantallaActual === 14 ) { 
     mostrarBotonReiniciar();
-  }
+  } else if (pantallaActual === 7 || pantallaActual === 12 ) {
+    mostrarBotonesEspectaculoDesaparece();
+  } else if (pantallaActual === 1 || pantallaActual === 6 || pantallaActual === 7 || pantallaActual === 8 || pantallaActual === 11 || pantallaActual === 13) {
+    mostrarBotonAvanzar();
+  } else if (pantallaActual === 13) {
+    mostrarBotonAtras();
+}
 }
 
-// BOTONES
+//botones
 function dibujarBoton(x, y, ancho, alto, colorRelleno, colorTexto, texto) {
   fill(colorRelleno);
   rect(x, y, ancho, alto);
@@ -59,7 +64,6 @@ function dibujarBoton(x, y, ancho, alto, colorRelleno, colorTexto, texto) {
   textAlign(CENTER, CENTER);
   text(texto, x + ancho / 2, y + alto / 2);
 }
-
 function mostrarBotonesInicio() {
   dibujarBoton(150, 400, 150, 50, color(255, 0, 0), color(255), "Iniciar aventura");
   dibujarBoton(400, 400, 150, 50, color(0, 255, 78), color(255), "Creditos");
@@ -75,65 +79,87 @@ function mostrarBotonesLaencuentraNolaencuentra() {
 }
 
 function mostrarBotonesEspectaculoDesaparece() {
-  dibujarBoton(150, 400, 160, 60, color(0, 255, 0), color(255), "Espectáculo\nen el cielo");
-  dibujarBoton(400, 400, 160, 60, color(255, 0, 0), color(255), "Llega su madre\ny todo desaparece");
+  dibujarBoton(150, 400, 160, 60, color(0, 255, 0), color(255), "\nEspectaculo \nen el cielo");
+  dibujarBoton(400, 400, 160, 60, color(255, 0, 0), color(255), "\nLlega su madre \ny todo desaparece");
 }
-
 function mostrarBotonAvanzar() {
   dibujarBoton(500, 400, 100, 50, color(254, 255, 0), color(0), "Siguiente");
-}
+} 
 
-// CLICK
+//Interaccion
 function clicEnBoton(x, y, ancho, alto) {
   return mouseX > x && mouseX < x + ancho && mouseY > y && mouseY < y + alto;
 }
-
 function mousePressed() {
-
-  // PANTALLA 0
   if (pantallaActual === 0) {
-    if (clicEnBoton(150, 400, 150, 50)) pantallaActual = 1;
-    else if (clicEnBoton(400, 400, 150, 50)) pantallaActual = 13;
-  }
-
-  // AVANZAR
-  else if (pantallaActual === 1) pantallaActual = clicEnBoton(500, 400, 100, 50) ? 2 : pantallaActual;
-  else if (pantallaActual === 2) pantallaActual = clicEnBoton(500, 400, 100, 50) ? 3 : pantallaActual;
-  else if (pantallaActual === 3) pantallaActual = clicEnBoton(500, 400, 100, 50) ? 4 : pantallaActual;
-
-  // ELECCIÓN
-  else if (pantallaActual === 4) {
-    if (clicEnBoton(150, 400, 150, 50)) pantallaActual = 5;
-    else if (clicEnBoton(400, 400, 150, 50)) pantallaActual = 6;
-  }
-
-  // FINAL 5
-  else if (pantallaActual === 5 && clicEnBoton(250, 400, 140, 50)) pantallaActual = 0;
-
-  // SIGUE 6 → 7
-  else if (pantallaActual === 6 && clicEnBoton(500, 400, 100, 50)) pantallaActual = 7;
-
-  // RAMA 7
-  else if (pantallaActual === 7) {
-    if (clicEnBoton(150, 400, 160, 60)) pantallaActual = 8;
-    else if (clicEnBoton(400, 400, 160, 60)) pantallaActual = 9;
-  }
-
-  // FINAL 8 → 10
-  else if (pantallaActual === 8 && clicEnBoton(500, 400, 100, 50)) pantallaActual = 10;
-
-  // FINAL 9
-  else if (pantallaActual === 9 && clicEnBoton(250, 400, 140, 50)) pantallaActual = 0;
-
-  // FINAL 10
-  else if (pantallaActual === 10 && clicEnBoton(250, 400, 140, 50)) pantallaActual = 0;
-
-  // SIGUE 11 → 12
-  else if (pantallaActual === 11 && clicEnBoton(500, 400, 100, 50)) pantallaActual = 12;
-
-  // FINAL 12
-  else if (pantallaActual === 12 && clicEnBoton(250, 400, 140, 50)) pantallaActual = 0;
-
-  // CRÉDITOS
-  else if (pantallaActual === 13 && clicEnBoton(250, 400, 140, 50)) pantallaActual = 0;
+    if (clicEnBoton(150, 400, 150, 50)) {
+      pantallaActual = 1;
+    } else if (clicEnBoton(400, 400, 150, 50)) {
+      pantallaActual = 13;
+      if (!mySound.isPlaying()) {
+        mySound.loop();
+      }
+    }
+  } else if (pantallaActual === 13) {
+    if (clicEnBoton(250, 400, 140, 50)) {
+      pantallaActual = 0;
+      mySound.stop();
+    }
+  } else if (pantallaActual === 1) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 2;
+    }
+  } else if (pantallaActual === 2) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 3;
+    }
+  } else if (pantallaActual === 3) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 4;
+    }
+  } else if (pantallaActual === 4) {
+    if (clicEnBoton(150, 400, 100, 50)) {
+      pantallaActual = 5;
+    } else if (clicEnBoton(400, 400, 100, 50)) {
+     pantallaActual = 6;
+    } 
+  } else if (pantallaActual === 5) {
+      if (clicEnBoton(250, 400, 140, 50)) {
+      pantallaActual = 0;
+    }
+  } else if (pantallaActual === 6) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 7;
+    }
+  } else if (pantallaActual === 7) {
+     if (clicEnBoton(150, 400, 150, 50)) {
+      pantallaActual = 8;
+    } else if (clicEnBoton(400, 400, 150, 50)) {
+     pantallaActual = 9;
+    }
+  } else if (pantallaActual === 8) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 10;
+    }
+  } else if (pantallaActual === 9) {
+    if (clicEnBoton(250, 400, 140, 50)) {
+      pantallaActual = 0;
+    }
+  } else if (pantallaActual === 10) {
+    if (clicEnBoton(250, 400, 140, 50)) {
+      pantallaActual = 0;
+    } 
+  } else if (pantallaActual === 11) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 12;
+    }
+  } else if (pantallaActual === 12) {
+    if (clicEnBoton(250, 400, 140, 50)) {
+      pantallaActual = 0;
+    }
+  } else if (pantallaActual === 13) {
+    if (clicEnBoton(500, 400, 100, 50)) {
+      pantallaActual = 14;
+    }
+}
 }
