@@ -13,14 +13,14 @@ let botonInstrucciones;
 function preload() {
   // Cargar pantallas (0 a 13)
   for (let i = 0; i < 14; i++) {
-    pantallas[i] = loadImage("trabajoFran1/data/pantalla" + i + ".jpg");
+    pantallas[i] = loadImage("trabajoFran1/trabajoFran1/data/pantalla" + i + ".jpg");
   }
 
   // Cargar música
-  mySound = loadSound("trabajoFran1/data/cancion.mp3");
+  mySound = loadSound("trabajoFran1/trabajoFran1/data/cancion.mp3");
 
   // Cargar textos
-  textos = loadStrings("trabajoFran1/data/texto.txt");
+  textos = loadStrings("trabajoFran1/trabajoFran1/data/texto.txt");
 }
 
 function setup() {
@@ -103,6 +103,7 @@ function actualizarBotones() {
     botonVolver.show();
   }
 }
+
 
 
 
