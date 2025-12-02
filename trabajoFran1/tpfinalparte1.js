@@ -7,7 +7,7 @@ let textos = [];
 //pantallas, imagenes, archivo de textos, musica
 function preload() {
   for (let i = 0; i < 14; i++) {
-   pantallas[i] = loadImage("trabajoFran1/data/pantalla" + i + ".jpeg");
+   pantallas[i] = loadImage("trabajoFran1/data/pantalla" + i + ".jpg");
 mySound = loadSound("trabajoFran1/data/cancion.mp3");
 textos = loadStrings("trabajoFran1/data/texto.txt");
 }
@@ -162,4 +162,5 @@ function mousePressed() {
     }
 }
 }
+
 
